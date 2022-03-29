@@ -1,0 +1,12 @@
+<div class="column full-height center">
+
+    <div class="dropdown">
+        <mat-form-field class="full-width" appearance="fill">
+            <mat-label>Fruits</mat-label>
+            <app-autocomplete-multiselect [data]="allFruits" [formControl]="selectedFruits"></app-autocomplete-multiselect>
+        </mat-form-field>
+    </div>
+    
+    <pre>{{ selectedFruits.value | json }}</pre>
+
+</div>

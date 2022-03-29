@@ -1,0 +1,53 @@
+<div
+  class="autocomplete-multiselect"
+  [attr.aria-labelledby]="_formField?.getLabelId()"
+  (focusin)="onFocusIn($event)"
+  (focusout)="onFocusOut($event)"
+>
+  <mat-chip-list #camChipList [value]="selectedData">
+    <mat-chip
+      *ngFor="let data of selectedData"
+      [selectable]="selectable"
+      [removable]="removable"
+      (removed)="remove(data)"
+    >
+      {{ data.viewValue }}
+      <button matChipRemove *ngIf="removable">
+        <mat-icon>cancel</mat-icon>
+      </button>
+    </mat-chip>
+    <input
+      #camInput
+      [formControl]="inputDataControl"
+      [matAutocomplete]="auto"
+      [matChipInputFor]="camChipList"
+      [matChipInputSeparatorKeyCodes]="separatorKeysCodes"
+      (matChipInputTokenEnd)="add($event)"
+    />
+    <button
+      *ngIf="selectedData.length > 0"
+      matSuffix
+      mat-icon-button
+      aria-label="Clear"
+      (click)="clearSelection($event)"
+    >
+      <mat-icon>close</mat-icon>
+    </button>
+  </mat-chip-list>
+  <mat-autocomplete autoActiveFirstOption #auto="matAutocomplete">
+    <mat-option
+      style="padding-left: 0; padding-right: 0"
+      *ngFor="let data of filteredData | async"
+      [value]="data.value"
+      (onSelectionChange)="selection($event, data)"
+    >
+      <div style="padding: 0 16px" (click)="optionClicked($event, data)">
+        {{ data.viewValue ?? '' }}
+      </div>
+    </mat-option>
+  </mat-autocomplete>
+</div>
+
+<!-- <pre>{{ data | json }}</pre> -->
+<!-- <pre>{{ inputDataControl.value | json }}</pre> -->
+<!-- <pre>{{ selectedDataControl.value | json }}</pre> -->
